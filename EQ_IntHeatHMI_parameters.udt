@@ -1,0 +1,51 @@
+﻿TYPE "EQ_IntHeatHMI_parameters"
+VERSION : 0.1
+   STRUCT
+      boEnaStrechingBladder : Bool := false;   // Enable streching bladder
+      boEnaDemolding : Bool := false;   // Enable demolding
+      boEnablePulsingNitrogen : Bool := false;   // Enable pulse nitrogen
+      itDrainVlvReqMaxCycle : Int := 0;   // Drain request valve maximum nu,ber of cycle
+      rePressureDrainSP : Real := 0.0;   // Drain pressure Set-point
+      rePressureVacuumSP : Real := 0.0;   // Vacuum pressure Set-point
+      rePressureStrechingSP : Real := 0.0;   // Streching pressure Set-point
+      rePressureDemoldingSP : Real := 0.0;   // Demolding pressure Set-poiunt
+      reIntPressMaxDev : Real := 0.0;   // Internal pressure maximum deviation with 2 probes
+      tmIntPressMaxDevDelay : Time := T#0ms;   // Internal pressure delay time of exceeded maximum deviation
+      reGymStepsReq : Real := 0.0;   // Number of Gym cycle request / Gym procedure duration time
+      reGymLStepsReq : Real := 0.0;   // Number of Gym cycle request / Gym procedure duration time for short stops
+      rePressureGymSP : Real := 0.0;   // Gym pressure Set-point
+      rePressureMinGymSP : Real := 0.0;   // Gym minimum pressure Set-point
+      rePressureReductionShap : Real := 0.0;   // Press reduction value in case of pressure reduction request from laoder
+      rePressureSPtoOpenPress : Real := 0.0;   // Internal pressure minimum value to open press after curing (Drain steps)
+      tmDrainUnPressureTout : Time := T#7MS;   // Drain un-pressure timeout  (Alarm generation)
+      tmVacuumUnPressureTout : Time := T#0ms;   // Vacuum un-pressure timeout  (Alarm generation)
+      tmDrainUnPressureDelay : Time := T#0ms;   // Time check Drain pressure
+      tmVacuumUnPressureDelay : Time := T#0ms;   // Time check Vacuum pressure
+      tmShapingForDeliveryDelay : Time := T#0ms;   // Shaping time ready for delivery
+      tmShapingMaxAdmitTime : Time := T#0ms;   // Shaping pahse maximum admitted time (Alarm generation)
+      tmShapingPressMaxOutLimTime : Time := T#0ms;   // Shaping pressure out of limit maximum time
+      tmCuringTime : Time := T#0ms;   // Curing time
+      tmCuringPressMaxOutLimTime : Time := T#0ms;   // Curing pressure maximum out of limit time
+      tmCuringPressMaxOutTolTime : Time := T#0ms;   // Curing pressure maximum out of tollerance time
+      itCuringPressMaxNumOutSamples : Int := 0;   // Curing pressure maximum number of sample
+      tmCuringTempMaxOutTolTime : Time := T#0ms;   // Curing temperature maximum time out of tollerance
+      itCuringTempMaxNumOutSamples : Int := 0;   // Curing temperature maximum number of sample
+      tmDemoldingPressureDurationDelay : Time := T#0ms;   // Demolding duration delay time in discharge phase
+      tmDemoldingMaxAdmitTime : Time := T#0ms;   // Demolding phase maximum admitted time (Alarm generation)
+      tmDischPressureOffDelay : Time := T#0ms;   // Discharge pahse pressure off delay time
+      tmGymPressureDurationDelay : Time := T#0ms;   // Gym pressure duratione delay time
+      tmGymDrainDurationDelay : Time := T#0ms;   // Gym drain duration delay time
+      tmGymVacuumDurationDelay : Time := T#0ms;   // Gym vacuum duration delay time
+      tmDrainCheckTime : Time := T#0ms;   // Time to check start drain
+      tmVlvDrainTime : Time := T#0ms;   // Drain valve opening time
+      tmMaxIdleTimeReqFullGym : Time := T#0ms;   // Maximum idle time (no curing and no gym) for required full gym cycle
+      tmMaxIdleTimeReqSingleGym : Time := T#0ms;   // Maximum idle time (no curing and no gym) for required single gym cycle
+      tmGymPressurizeMaxAdmitTime : Time := T#0ms;   // Gymnastic pressurize phase maximum admitted time (Alarm generation)
+      shapingSteps { S7_SetPoint := 'False'} : Array[1..2] of "EQ_IntHeatShapingParam";   // Shaping step parameters
+      curingSteps { S7_SetPoint := 'False'} : Array[1..8] of "EQ_IntHeatCuringParam";   // Curing step parameters
+      curingDrainSteps { S7_SetPoint := 'False'} : Array[1..5] of "EQ_IntHeatCuringDrainParam";   // Curing drain step parameters
+      Pulsed_N2 { S7_SetPoint := 'False'} : "PN2_Settings_New";
+   END_STRUCT;
+
+END_TYPE
+

@@ -1,0 +1,17 @@
+﻿TYPE "EQ_LoaderPositions"
+VERSION : 0.1
+   STRUCT
+      boInPressPos { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;   // Loader inside press
+      boOutPressPos { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;   // Loader outside press
+      boOnShapingPos { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;   // Loader on shaping position
+      boOnSwingPos { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;   // Loader on swing position
+      boOnSwingOffsetPos { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;   // Loader on swing offset position
+      boLoaderOverSwingPos { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;   // Loader over swing position
+      boOnPickUpPos { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;   // Loader on pick-up position
+      boOnMCTopPos { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;   // Loader on mold-change top position
+      boPaddlesOpen { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;   // Loader paddle open position
+      reUpDownLvdtPos { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Real;   // Loader LVDT  position
+   END_STRUCT;
+
+END_TYPE
+

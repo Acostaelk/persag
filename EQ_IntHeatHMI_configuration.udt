@@ -1,0 +1,12 @@
+﻿TYPE "EQ_IntHeatHMI_configuration"
+VERSION : 0.1
+   STRUCT
+      itMacType : Int := 0;
+      itPressureProbeConfig : Int := 2;   // 2= Both probes, 1=Only one probe
+      itGymType : Int := 0;   // 0=Gym by Step, 1=Gym by timer
+      itGymDeflation : Int := 1;   // 0=Drain, 1=Vacuum
+      boEnaUnloaderRescueTire : Array[0..7] of Bool;
+   END_STRUCT;
+
+END_TYPE
+

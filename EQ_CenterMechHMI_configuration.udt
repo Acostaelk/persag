@@ -1,0 +1,11 @@
+﻿TYPE "EQ_CenterMechHMI_configuration"
+VERSION : 0.1
+   STRUCT
+      itMacType : Int;
+      itGymPos : Int;   // 0=Shaping pos, 1=Up position
+      diVlvBCREnaMovFeedbackDelayAlm : DInt;
+      boEnaUnloaderRescueTire : Array[0..7] of Bool;
+   END_STRUCT;
+
+END_TYPE
+

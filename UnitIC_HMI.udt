@@ -1,0 +1,263 @@
+﻿TYPE "UnitIC_HMI"
+VERSION : 0.1
+   STRUCT
+      commands : Struct
+         boHmiResetAlmReq : Bool;   // reset alarm request from HMI
+         boLocResetAlmReq { ExternalWritable := 'False'} : Bool;   // reset alarm request from local panel
+         boStandbyReq { ExternalWritable := 'False'} : Bool := FALSE;   // standby request
+         boStopCmd { ExternalWritable := 'False'} : Bool := FALSE;   // automatic (reset standby) and manual stop command
+         boChgToAutoMode { ExternalWritable := 'False'} : Bool;   // change mode to automatic
+         boRescueTireDisable : Bool;   // Rescue tire procedure disable
+         boRecipeActivationCmd : Bool := FALSE;
+         boStartProductionCmd : Bool := FALSE;
+         boStopProductionCmd : Bool := FALSE;
+      END_STRUCT;
+      states { ExternalWritable := 'False'} : Struct
+         byMode { ExternalWritable := 'False'} : Byte;
+         woStatus { ExternalWritable := 'False'} : Word;
+         boUnloaderRescueTireReq { ExternalWritable := 'False'} : Array[0..7] of Bool;   // Unloader rescue tire enabled to start
+      END_STRUCT;
+      parameters : Struct
+         reCabinetTemp : Real;
+         it1stPosCoolingTime : Int;   // Percentage of cooling time of tire on 1st position of exit conveyor
+         it2ndPosCoolingTime : Int;   // Percentage of cooling time of tire on 2nd position of exit conveyor
+         itCuringCycleToSwichParameter : Int := 2;   // Number of curing cycle to switch recipe parameters
+         timeDelayedPrewarm : Time;   // Delay time prewarm press closing
+      END_STRUCT;
+      configuration : Struct
+         itPressType : Int;
+      END_STRUCT;
+      procedure : Struct
+         DryRun : Struct
+            enableConditions { ExternalWritable := 'False'} : Struct
+               boGTSEmpty { ExternalWritable := 'False'} : Bool := false;   // GTS without green tire
+               boLoaderEmpty { ExternalWritable := 'False'} : Bool := false;   // Loader without green tire
+               boCenterMechEmpty { ExternalWritable := 'False'} : Bool := false;   // Center Mechanism without tire
+               boUnloaderEmpty { ExternalWritable := 'False'} : Bool := false;   // Unloader without tire
+               boExitConv1stPosEmpty { ExternalWritable := 'False'} : Bool := false;   // Exit conveyor first position without tire
+               boDummyCycleNotActive { ExternalWritable := 'False'} : Bool;   // Dummy cycle not active
+               boMaintenanceProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Maintenance procedure not active
+               boCleaningMoldProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Cleaning Mold procedure not active
+               boChangeMoldProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Change Mold procedure not active
+               boChangeBladderProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Chnage bladder procedure not active
+               boNoStepActive { ExternalWritable := 'False'} : Bool;   // No step active
+            END_STRUCT;
+            command : Struct
+               boCmd : Bool;   // Active / Deactive command
+            END_STRUCT;
+            state { ExternalWritable := 'False'} : Struct
+               boCmdEnable { ExternalWritable := 'False'} : Bool;   // Enable active procedure
+               boProcedureActive { ExternalWritable := 'False'} : Bool;   // Procedure active
+               diDryRunTotCycle { ExternalWritable := 'False'} : DInt;
+            END_STRUCT;
+         END_STRUCT;
+         DummyCycle : Struct
+            enableConditions { ExternalWritable := 'False'} : Struct
+               boGTSEmpty { ExternalWritable := 'False'} : Bool;   // GTS without green tire
+               boLoaderEmpty { ExternalWritable := 'False'} : Bool;   // Loader without green tire
+               boCenterMechEmpty { ExternalWritable := 'False'} : Bool;   // Center Mechanism without tire
+               boUnloaderEmpty { ExternalWritable := 'False'} : Bool;   // Unloader without tire
+               boExitConv1stPosEmpty { ExternalWritable := 'False'} : Bool;   // Exit conveyor first position without tire
+               boSteelBladderPresence { ExternalWritable := 'False'} : Bool;   // Steel bladder presence
+               boDryRunNotActive { ExternalWritable := 'False'} : Bool;   // Dry run not active
+               boMaintenanceProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Maintenance procedure not active
+               boCleaningMoldProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Cleaning Mold procedure not active
+               boChangeMoldProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Change Mold procedure not active
+               boChangeBladderProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Chnage bladder procedure not active
+               boNoStepActive { ExternalWritable := 'False'} : Bool;   // No step active
+            END_STRUCT;
+            command : Struct
+               boCmd : Bool;   // Active / Deactive command
+               boSteelBladderPresence : Bool;   // Steel bladder presence command / status
+            END_STRUCT;
+            state { ExternalWritable := 'False'} : Struct
+               boCmdEnable { ExternalWritable := 'False'} : Bool;   // Enable active procedure
+               boProcedureActive { ExternalWritable := 'False'} : Bool;   // Procedure active
+            END_STRUCT;
+         END_STRUCT;
+         FreeManual : Struct
+            enableConditions { ExternalWritable := 'False'} : Struct
+               boSetupModeActive { ExternalWritable := 'False'} : Bool;   // Selector in setup mode
+               boLoaderEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Loader enable for setup program
+               boCenterMechEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Center Mechanism enable for setup program
+               boPressEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Press enable for setup program
+               boUnloaderEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Unloader enable for setup program
+               boInternalHeatingEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Internal heating enable for setup program
+               boDryRunNotActive { ExternalWritable := 'False'} : Bool;   // Dry run not active
+               boDummyCycleNotActive { ExternalWritable := 'False'} : Bool;   // Dummy cycle not active
+               boMaintenanceProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Maintenance procedure not active
+               boCleaningMoldProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Cleaning Mold procedure not active
+               boChangeMoldProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Change Mold procedure not active
+               boChangeBladderProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Chnage bladder procedure not active
+            END_STRUCT;
+            command : Struct
+               boCmd : Bool;   // Active / Deactive command
+            END_STRUCT;
+            state { ExternalWritable := 'False'} : Struct
+               boCmdEnable { ExternalWritable := 'False'} : Bool;   // Enable active procedure
+               boProcedureActive { ExternalWritable := 'False'} : Bool;   // Procedure active
+            END_STRUCT;
+         END_STRUCT;
+         EnergySaving : Struct
+            enableConditions { ExternalWritable := 'False'} : Struct
+               boDryRunNotActive { ExternalWritable := 'False'} : Bool;   // Dry run not active
+               boDummyCycleNotActive { ExternalWritable := 'False'} : Bool;   // Dummy cycle not active
+               boMaintenanceProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Maintenance procedure not active
+               boCleaningMoldProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Cleaning Mold procedure not active
+               boChangeMoldProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Change Mold procedure not active
+               boChangeBladderProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Chnage bladder procedure not active
+               boFreeManualNotActive { ExternalWritable := 'False'} : Bool;   // Free manual not active
+               boCuringNotActive { ExternalWritable := 'False'} : Bool;   // Curing not active
+               boAutomaticModeNotActive { ExternalWritable := 'False'} : Bool;   // Automatic mode not active
+            END_STRUCT;
+            command : Struct
+               boCmd : Bool;   // Active / Deactive command
+            END_STRUCT;
+            state { ExternalWritable := 'False'} : Struct
+               boCmdEnable { ExternalWritable := 'False'} : Bool;   // Enable active procedure
+               boProcedureActive { ExternalWritable := 'False'} : Bool;   // Procedure active
+            END_STRUCT;
+            parameters : Struct
+               reSavingModeTemperature : Real := 140.0;
+               diSavingModeTimer : DInt := 5000;
+            END_STRUCT;
+         END_STRUCT;
+         Teaching : Struct
+            enableConditions { ExternalWritable := 'False'} : Struct
+               boEquipmentReady { ExternalWritable := 'False'} : Bool;   // Equipment not ready
+               boDryRunNotActive { ExternalWritable := 'False'} : Bool;   // Dry run not active
+               boDummyCycleNotActive { ExternalWritable := 'False'} : Bool;   // Dummy cycle not active
+               boMaintenanceProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Maintenance procedure not active
+               boCleaningMoldProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Cleaning Mold procedure not active
+               boChangeMoldProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Change Mold procedure not active
+               boChangeBladderProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Chnage bladder procedure not active
+               boFreeManualNotActive { ExternalWritable := 'False'} : Bool;   // Free manual not active
+               boNoStepActive { ExternalWritable := 'False'} : Bool;   // No step active
+            END_STRUCT;
+            command : Struct
+               boCmd : Bool;   // Active / Deactive command
+            END_STRUCT;
+            state { ExternalWritable := 'False'} : Struct
+               boCmdEnable { ExternalWritable := 'False'} : Bool;   // Enable active procedure
+               boProcedureActive { ExternalWritable := 'False'} : Bool;   // Procedure active
+            END_STRUCT;
+         END_STRUCT;
+         Maintenance : Struct
+            enableConditions { ExternalWritable := 'False'} : Struct
+               boSetupModeActive { ExternalWritable := 'False'} : Bool;   // Selector in setup mode
+               boLoaderEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Loader enable for setup program
+               boCenterMechEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Center Mechanism enable for setup program
+               boPressEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Press enable for setup program
+               boUnloaderEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Unloader enable for setup program
+               boInternalHeatingEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Internal heating enable for setup program
+               boDryRunNotActive { ExternalWritable := 'False'} : Bool;   // Dry run not active
+               boDummyCycleNotActive { ExternalWritable := 'False'} : Bool;   // Dummy cycle not active
+               boCleaningMoldProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Cleaning procedure not active
+               boChangeMoldProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Change Mold procedure not active
+               boChangeBladderProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Chnage bladder procedure not active
+               boFreeManualNotActive { ExternalWritable := 'False'} : Bool;   // Free manual not active
+               boNoStepActive { ExternalWritable := 'False'} : Bool;   // No step active
+            END_STRUCT;
+            command : Struct
+               boCmd : Bool;   // Active / Deactive command
+            END_STRUCT;
+            state { ExternalWritable := 'False'} : Struct
+               boCmdEnable { ExternalWritable := 'False'} : Bool;   // Enable active procedure
+               boProcedureActive { ExternalWritable := 'False'} : Bool;   // Procedure active
+            END_STRUCT;
+         END_STRUCT;
+         KeySwitchForceSignals : Struct
+            enableConditions { ExternalWritable := 'False'} : Struct
+               boAutomaticModeNotActive { ExternalWritable := 'False'} : Bool;   // Automatic mode not active
+               boKeySwitchSelectorActive { ExternalWritable := 'False'} : Bool;   // Key switch selector active
+            END_STRUCT;
+            command : Struct
+               boCmd : Bool;   // Active / Deactive command
+            END_STRUCT;
+            state { ExternalWritable := 'False'} : Struct
+               boCmdEnable { ExternalWritable := 'False'} : Bool;   // Enable active procedure
+               boProcedureActive { ExternalWritable := 'False'} : Bool;   // Procedure active
+            END_STRUCT;
+         END_STRUCT;
+         CleanMold : Struct
+            enableConditions { ExternalWritable := 'False'} : Struct
+               boSetupModeActive { ExternalWritable := 'False'} : Bool;   // Selector in setup mode
+               boLoaderEnaSetupProgram { ExternalWritable := 'False'} : Bool;   // Loader enable for setup program
+               boCenterMechEnaSetupProgram { ExternalWritable := 'False'} : Bool;   // Center Mechanism enable for setup program
+               boPressEnaSetupProgram { ExternalWritable := 'False'} : Bool;   // Press enable for setup program
+               boUnloaderEnaSetupProgram { ExternalWritable := 'False'} : Bool;   // Unloader enable for setup program
+               boInternalHeatingEnaSetupProgram { ExternalWritable := 'False'} : Bool;   // Internal heating enable for setup program
+               boDryRunNotActive { ExternalWritable := 'False'} : Bool;   // Dry run not active
+               boDummyCycleNotActive { ExternalWritable := 'False'} : Bool;   // Dummy cycle not active
+               boMaintenanceProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Maintenance procedure not active
+               boChangeMoldProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Change Mold procedure not active
+               boChangeBladderProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Chnage bladder procedure not active
+               boNoStepActive { ExternalWritable := 'False'} : Bool;   // No step active
+            END_STRUCT;
+            command : Struct
+               boCmd : Bool;   // Active / Deactive command
+            END_STRUCT;
+            state { ExternalWritable := 'False'} : Struct
+               boCmdEnable { ExternalWritable := 'False'} : Bool;   // Enable active procedure
+               boProcedureActive { ExternalWritable := 'False'} : Bool;   // Procedure active
+            END_STRUCT;
+            configuration { S7_SetPoint := 'False'} : "UNIT_ServProcCfg";
+         END_STRUCT;
+         ChangeMold : Struct
+            enableConditions { ExternalWritable := 'False'} : Struct
+               boSetupModeActive { ExternalWritable := 'False'} : Bool;   // Selector in setup mode
+               boLoaderEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Loader enable for setup program
+               boCenterMechEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Center Mechanism enable for setup program
+               boPressEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Press enable for setup program
+               boUnloaderEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Unloader enable for setup program
+               boInternalHeatingEnaSetupProgram { ExternalWritable := 'False'} : Bool := false;   // Internal heating enable for setup program
+               boDryRunNotActive { ExternalWritable := 'False'} : Bool;   // Dry run not active
+               boDummyCycleNotActive { ExternalWritable := 'False'} : Bool;   // Dummy cycle not active
+               boMaintenanceProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Maintenance procedure not active
+               boCleaningMoldProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Cleaning procedure not active
+               boChangeBladderProcedureNotActive { ExternalWritable := 'False'} : Bool;   // Chnage bladder procedure not active
+               boNoStepActive { ExternalWritable := 'False'} : Bool;   // No step active
+            END_STRUCT;
+            command : Struct
+               boCmd : Bool;   // Active / Deactive command
+            END_STRUCT;
+            state { ExternalWritable := 'False'} : Struct
+               boCmdEnable { ExternalWritable := 'False'} : Bool;   // Enable active procedure
+               boProcedureActive { ExternalWritable := 'False'} : Bool;   // Procedure active
+            END_STRUCT;
+            configuration { S7_SetPoint := 'False'} : "UNIT_ServProcCfg";
+         END_STRUCT;
+         ChangeBladder : Struct
+            enableConditions : Struct
+               boSetupModeActive : Bool;   // Selector in setup mode
+               boLoaderEnaSetupProgram : Bool := false;   // Loader enable for setup program
+               boCenterMechEnaSetupProgram : Bool := false;   // Center Mechanism enable for setup program
+               boPressEnaSetupProgram : Bool := false;   // Press enable for setup program
+               boUnloaderEnaSetupProgram : Bool := false;   // Unloader enable for setup program
+               boInternalHeatingEnaSetupProgram : Bool := false;   // Internal heating enable for setup program
+               boDryRunNotActive : Bool;   // Dry run not active
+               boDummyCycleNotActive : Bool;   // Dummy cycle not active
+               boMaintenanceProcedureNotActive : Bool;   // Maintenance procedure not active
+               boCleaningMoldProcedureNotActive : Bool;   // Cleaning procedure not active
+               boChangeMoldProcedureNotActive : Bool;   // Chnage mold procedure not active
+               boNoStepActive : Bool;   // No step active
+            END_STRUCT;
+            command : Struct
+               boCmd : Bool;   // Active / Deactive command
+            END_STRUCT;
+            state : Struct
+               boCmdEnable : Bool;   // Enable active procedure
+               boProcedureActive : Bool;   // Procedure active
+            END_STRUCT;
+            configuration { S7_SetPoint := 'False'} : "UNIT_ServProcCfg";
+         END_STRUCT;
+         state { ExternalWritable := 'False'} : Struct
+            boEnaSetupProc { ExternalWritable := 'False'} : Bool;
+            itSetupProcPhase { ExternalWritable := 'False'} : Int;
+            itSetupProgramNumOfStepActive { ExternalWritable := 'False'} : Int;   // Setup program number of active step
+         END_STRUCT;
+      END_STRUCT;
+   END_STRUCT;
+
+END_TYPE
+

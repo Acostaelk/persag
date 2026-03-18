@@ -1,0 +1,11 @@
+﻿TYPE "PB_Selected"
+VERSION : 0.1
+   STRUCT
+      itEQSelected : Int;
+      itSideSelected : Int;
+      interlockLeft { S7_SetPoint := 'False'} : "KP32_Interlock";
+      interlockRight { S7_SetPoint := 'False'} : "KP32_Interlock";
+   END_STRUCT;
+
+END_TYPE
+
